@@ -1,13 +1,13 @@
-package state.imported;
+package component.imports;
 
-import state.State;
-import state.StateChart;
-import state.Transition;
+import component.state.State;
+import component.StateChart;
+import component.Transition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static code.CodeGenerator.SOURCE_CODE_STATE_TEMPLATE;
+import static gen.Generator.*;
 
 public class StateChartImport {
     public List<StateImport> states;

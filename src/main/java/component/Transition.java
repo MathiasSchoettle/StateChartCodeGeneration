@@ -1,6 +1,6 @@
-package state;
+package component;
 
-import state.imported.Timer;
+import component.state.State;
 
 public class Transition {
     public State from;

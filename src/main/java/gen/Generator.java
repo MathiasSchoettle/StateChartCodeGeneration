@@ -1,12 +1,13 @@
-package code;
+package gen;
 
-import state.Component;
-import utils.Utils;
+import component.Component;
 
 import java.io.*;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-public class CodeGenerator {
+public class Generator {
     private final Component component;
     public static final String SOURCE_CODE_STATE_TEMPLATE = "state";
     public static final String STATE_NAME_TEMPLATE = "STATE_";
@@ -32,7 +33,7 @@ public class CodeGenerator {
     public static final String SET_EVENT = "setEvent(%s);\n";
     public static final String SET_TIMER = "declareTimer(%1$s,%2$s,%3$s);\nstartTimer(%1$s,tick);\n";
     public static final String CANCEL_TIMER = "cancelTimer(%s);\n";
-    public CodeGenerator(Component component) {
+    public Generator(Component component) {
         this.component = component;
     }
 
@@ -71,13 +72,13 @@ public class CodeGenerator {
 
         for (var entry : sourceCode.entrySet()) {
             builder.append(String.format(CASE_TEMPLATE, entry.getKey()));
-            builder.append(Utils.indent(String.format(CODE_TEMPLATE, entry.getValue())));
+            builder.append(indent(String.format(CODE_TEMPLATE, entry.getValue())));
         }
 
         builder.append("}\n");
         builder.append(append);
 
-        return Utils.indent(builder.toString());
+        return indent(builder.toString());
     }
 
     public static String buildConditions(Map<String, String> blocks) {
@@ -97,15 +98,25 @@ public class CodeGenerator {
                 continue;
             }
 
-            builder.append(String.format(current, block.getKey(), Utils.indent(block.getValue())));
+            builder.append(String.format(current, block.getKey(), indent(block.getValue())));
             current = ELSE_IF_TEMPLATE;
         }
 
         if (blocks.containsKey("")) {
-            builder.append(String.format(ELSE_TEMPLATE, Utils.indent(blocks.get(""))));
+            builder.append(String.format(ELSE_TEMPLATE, indent(blocks.get(""))));
         }
 
         return builder.toString();
+    }
+
+    public static String indent(String input) {
+        return indent(input, 1);
+    }
+
+    public static String indent(String input, int levels) {
+        return input.lines()
+                .map(s -> IntStream.range(0, levels).mapToObj(i -> "\t").collect(Collectors.joining("")) + s)
+                .collect(Collectors.joining("\n")) + "\n";
     }
 
     public void saveToFile(String fileName) {

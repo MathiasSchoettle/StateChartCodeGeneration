@@ -1,9 +1,12 @@
-package state;
+package component;
+
+import component.state.ComplexState;
+import component.state.State;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static code.CodeGenerator.*;
+import static gen.Generator.*;
 
 public class StateChart {
     public List<State> states;

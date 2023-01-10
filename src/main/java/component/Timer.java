@@ -1,6 +1,6 @@
-package state.imported;
+package component;
 
-import static code.CodeGenerator.SET_TIMER;
+import gen.Generator;
 
 public class Timer {
     public String name;
@@ -8,6 +8,6 @@ public class Timer {
     public Integer duration;
 
     public String getSetTimer() {
-        return String.format(SET_TIMER, id, duration, name);
+        return String.format(Generator.SET_TIMER, id, duration, name);
     }
 }

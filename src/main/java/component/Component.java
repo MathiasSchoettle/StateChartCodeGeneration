@@ -1,7 +1,8 @@
-package state;
+package component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import state.imported.ComponentImport;
+import component.imports.ComponentImport;
+import component.state.State;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

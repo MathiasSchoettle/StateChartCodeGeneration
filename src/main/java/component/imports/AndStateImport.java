@@ -1,7 +1,7 @@
-package state.imported;
+package component.imports;
 
-import state.AndState;
-import state.State;
+import component.state.AndState;
+import component.state.State;
 
 public class AndStateImport extends StateImport {
     public StateChartImport stateChartOne;

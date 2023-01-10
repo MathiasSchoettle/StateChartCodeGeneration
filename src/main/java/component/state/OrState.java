@@ -1,9 +1,11 @@
-package state;
+package component.state;
+
+import component.StateChart;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static code.CodeGenerator.*;
+import static gen.Generator.*;
 
 public class OrState extends ComplexState {
     public StateChart stateChart;

@@ -1,10 +1,9 @@
-package state;
+package component.state;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static code.CodeGenerator.CALL_DO_TEMPLATE;
-import static code.CodeGenerator.CALL_LEAVE_TEMPLATE;
+import static gen.Generator.*;
 
 public abstract class ComplexState extends State {
     public ComplexState(String name, String stateName, int stateValue, String activationPath) {

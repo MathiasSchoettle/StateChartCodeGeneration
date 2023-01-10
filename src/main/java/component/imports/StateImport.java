@@ -1,8 +1,8 @@
-package state.imported;
+package component.imports;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import state.State;
+import component.state.State;
 
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = StateImport.class)
 @JsonSubTypes({

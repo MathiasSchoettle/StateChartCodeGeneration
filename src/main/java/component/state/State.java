@@ -1,9 +1,9 @@
-package state;
+package component.state;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static code.CodeGenerator.*;
+import static gen.Generator.*;
 
 public class State {
     public String name;             // i.e. RotGelb

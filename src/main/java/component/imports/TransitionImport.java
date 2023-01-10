@@ -1,7 +1,8 @@
-package state.imported;
+package component.imports;
 
-import state.State;
-import state.Transition;
+import component.state.State;
+import component.Timer;
+import component.Transition;
 
 import java.util.List;
 

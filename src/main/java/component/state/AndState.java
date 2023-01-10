@@ -1,12 +1,12 @@
-package state;
+package component.state;
 
-import utils.Utils;
+import component.StateChart;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static code.CodeGenerator.*;
+import static gen.Generator.*;
 
 public class AndState extends ComplexState {
     public StateChart stateChartOne;
@@ -40,10 +40,10 @@ public class AndState extends ComplexState {
         builder.append(stateChartTwo.getFunction(nameTwo));
 
         String stepCode = step("", REGION_APPENDIX_ONE) + step("", REGION_APPENDIX_TWO);
-        builder.append(String.format(DO_TEMPLATE, name, Utils.indent(stepCode)));
+        builder.append(String.format(DO_TEMPLATE, name, indent(stepCode)));
 
         String leaveCode = leave("", REGION_APPENDIX_ONE) + leave("", REGION_APPENDIX_TWO) + String.format(IF_DEF_TEMPLATE, deactivation() + "\n");
-        builder.append(String.format(LEAVE_TEMPLATE, name, Utils.indent(leaveCode)));
+        builder.append(String.format(LEAVE_TEMPLATE, name, indent(leaveCode)));
 
         return builder.toString();
     }

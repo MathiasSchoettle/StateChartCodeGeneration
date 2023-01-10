@@ -1,7 +1,7 @@
-package state.imported;
+package component.imports;
 
-import state.OrState;
-import state.State;
+import component.state.OrState;
+import component.state.State;
 
 public class OrStateImport extends StateImport {
     public StateChartImport stateChart;

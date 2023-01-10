@@ -1,4 +1,4 @@
-package state.imported;
+package component.imports;
 
 public class ComponentImport {
     public String componentName;
