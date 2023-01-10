@@ -1,0 +1,237 @@
+{
+  "componentName": "Controller",
+  "stateChart": {
+    "states": [
+      {
+        "type": "AND",
+        "name": "Steuerung",
+        "stateChartOne":  {
+          "states": [
+            {
+              "name": "Tagbetrieb",
+              "type": "OR",
+              "stateChart": {
+                "states": [
+                  {
+                    "name": "Rot"
+                  },
+                  {
+                    "name": "RotGelb"
+                  },
+                  {
+                    "name": "Gruen"
+                  },
+                  {
+                    "name": "Gelb"
+                  }
+                ],
+                "transitions": [
+                  {
+                    "to": "Rot",
+                    "action": "port_write_Controller_Rot(1);\nport_write_Controller_Gelb(0);\nport_write_Controller_Gruen(0);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 10
+                    }
+                  },
+                  {
+                    "from": "Rot",
+                    "to": "RotGelb",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Gelb(1);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 2
+                    }
+                  },
+                  {
+                    "from": "RotGelb",
+                    "to": "Gruen",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Rot(0);\nport_write_Controller_Gelb(0);\nport_write_Controller_Gruen(1);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 10
+                    }
+                  },
+                  {
+                    "from": "Gruen",
+                    "to": "Gelb",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Gruen(0);\nport_write_Controller_Gelb(1);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 2
+                    }
+                  },
+                  {
+                    "from": "Gelb",
+                    "to": "Rot",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Gelb(0);\nport_write_Controller_Rot(1);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 10
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Nachtbetrieb",
+              "type": "OR",
+              "stateChart": {
+                "states": [
+                  {
+                    "name": "Gelban"
+                  },
+                  {
+                    "name": "Gelbaus"
+                  }
+                ],
+                "transitions": [
+                  {
+                    "to": "Gelban",
+                    "trigger": "TimerRegion",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 4
+                    }
+                  },
+                  {
+                    "from": "Gelban",
+                    "to": "Gelbaus",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Gelb(0);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 4
+                    }
+                  },
+                  {
+                    "from": "Gelbaus",
+                    "to": "Gelban",
+                    "trigger": "TimerRegion",
+                    "action": "port_write_Controller_Gelb(1);\n",
+                    "timer": {
+                      "name": "TimerRegion",
+                      "id": 0,
+                      "duration": 4
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "transitions": [
+            {
+              "to": "Tagbetrieb"
+            },
+            {
+              "from": "Tagbetrieb",
+              "to": "Tagbetrieb"
+            },
+            {
+              "from": "Nachtbetrieb",
+              "to": "Nachtbetrieb"
+            },
+            {
+              "from": "Tagbetrieb",
+              "to": "Nachtbetrieb",
+              "trigger": "TasterEv",
+              "action": "port_write_Controller_Rot(0);\nport_write_Controller_Gelb(1);\nport_write_Controller_Gruen(0);\n"
+            },
+            {
+              "from": "Nachtbetrieb",
+              "to": "Tagbetrieb",
+              "trigger": "TasterEv"
+            }
+          ],
+          "timers": ["TimerRegion"]
+        },
+        "stateChartTwo": {
+          "states": [
+            {
+              "name": "Released"
+            },
+            {
+              "name": "pressed"
+            }
+          ],
+          "transitions": [
+            {
+              "to": "Released",
+              "trigger": "TimerRegion1",
+              "timer": {
+                "name": "TimerRegion1",
+                "id": 1,
+                "duration": 2
+              }
+            },
+            {
+              "from": "Released",
+              "to": "Released",
+              "trigger": "TimerRegion1",
+              "timer": {
+                "name": "TimerRegion1",
+                "id": 1,
+                "duration": 2
+              }
+            },
+            {
+              "from": "Released",
+              "to": "pressed",
+              "trigger": "TimerRegion1",
+              "emit": "TasterEv",
+              "timer": {
+                "name": "TimerRegion1",
+                "id": 1,
+                "duration": 2
+              },
+              "condition": "port_read_Controller_Taster()==1"
+            },
+            {
+              "from": "pressed",
+              "to": "pressed",
+              "trigger": "TimerRegion1",
+              "timer": {
+                "name": "TimerRegion1",
+                "id": 1,
+                "duration": 2
+              }
+            },
+            {
+              "from": "pressed",
+              "to": "Released",
+              "trigger": "TimerRegion1",
+              "timer": {
+                "name": "TimerRegion1",
+                "id": 1,
+                "duration": 2
+              },
+              "condition": "port_read_Controller_Taster()==0"
+            }
+          ],
+          "timers": ["TimerRegion1"]
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "to": "Steuerung"
+      },
+      {
+        "from": "Steuerung",
+        "to": "Steuerung"
+      }
+    ],
+    "events": ["TasterEv"]
+  }
+}
