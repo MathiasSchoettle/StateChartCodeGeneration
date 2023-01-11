@@ -2,6 +2,7 @@ package gen;
 
 import component.Component;
 
+import java.awt.*;
 import java.io.*;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -119,7 +120,7 @@ public class Generator {
                 .collect(Collectors.joining("\n")) + "\n";
     }
 
-    public void saveToFile(String fileName) {
+    public void saveToFile(String fileName, boolean open) throws IOException {
         File file = new File(System.getProperty("user.home"), fileName + ".c");
         try(var os = new FileOutputStream(file)) {
             var writer = new BufferedWriter(new OutputStreamWriter(os));
@@ -127,6 +128,11 @@ public class Generator {
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        if (open) {
+            var desktop = Desktop.getDesktop();
+            desktop.open(file);
         }
     }
 }

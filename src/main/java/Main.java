@@ -9,6 +9,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         var imported = importComponent("controller.json");
-        new Generator(imported).saveToFile("generated");
+        new Generator(imported).saveToFile("generated", true);
     }
 }
